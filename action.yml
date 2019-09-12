@@ -3,8 +3,41 @@ description: 'A Action CI plugin for building and labelling Docker images'
 inputs:
   repo:
     description: 'tag to this repo/repo to push to'
-    default: 'test'
     required: true
+  path:
+    description: 'override working directory'
+    required: true
+    default: '.'
+  dockerfile:
+    description: 'override Dockerfile location'
+    required: true
+    default: 'Dockerfile'
+  use_cache:
+    description: 'override to disable --no-cache'
+    required: true
+    default: false
+  no_labels:
+    description: 'disable automatic image labelling'
+    required: true
+    default: false
+  build_args:
+    description: 'additional build arguments'
+    required: false
+  arguments:
+    description: 'optional extra arguments to pass to docker build'
+    required: false
+  make:
+    description: 'optional extra arguments to pass to docker build'
+    required: true
+    default: false
+  rm:
+    description: 'a flag to immediately docker rm the built image'
+    required: true
+    default: false
+  squash:
+    description: 'squash the built image into one layer'
+    required: true
+    default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
