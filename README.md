@@ -1,2 +1,2 @@
 # action-docker-build
-A Action CI plugin for building and labelling Docker images
+A action CI plugin for building and labelling Docker images
