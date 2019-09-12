@@ -1,15 +1,9 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'docker build'
+description: 'A Action CI plugin for building and labelling Docker images'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  repo:
+    description: 'tag to this repo/repo to push to'
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
