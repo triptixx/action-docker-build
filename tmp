@@ -1,0 +1,46 @@
+name: docker build
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Job1:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        alpine_tag:
+          - 3.7
+          - 3.8
+          - 3.9
+          - 3.10,latest
+    steps:
+      - name: clone
+        uses: actions/checkout@master
+      - name: build
+        env:
+          owner: ${{github.event.repository.owner.name}}
+          repo: ${{github.event.repository.name}}
+          alpine_tag: ${{matrix.alpine_tag}}
+          build_date: ${{github.event.commits[0].timestamp}}
+          vcs_ref: ${{github.sha}}
+          vcs_url: ${{github.event.repository.url}}
+        uses: actions/docker/cli@master
+        with:
+          args: build --build-arg ALPINE_TAG=${alpine_tag%%,*}
+                --build-arg BUILD_DATE=`date -d "${build_date}" +"%Y-%m-%dT%H:%M:%SZ"`
+                --build-arg VCS_REF=${vcs_ref:0:7}
+                --build-arg VCS_URL=${vcs_url}
+                --build-arg VENDOR=${owner}
+                -t ${owner}/${repo}-dev:${alpine_tag%%,*} .
+      - name: test
+        env:
+          owner: ${{github.event.repository.owner.name}}
+          repo: ${{github.event.repository.name}}
+          alpine_tag: ${{matrix.alpine_tag}}
+        uses: actions/docker/cli@master
+        with:
+          args: run ${owner}/${repo}-dev:${alpine_tag%%,*} su-exec nobody apk --version
+      - name: publish
+        uses: triptixx/action-docker-build@master
+        if: success()
