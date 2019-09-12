@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
 
-echo 'king of the world !!'
+echo "king of ${INPUT_REPO}"
