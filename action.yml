@@ -3,6 +3,7 @@ description: 'A Action CI plugin for building and labelling Docker images'
 inputs:
   repo:
     description: 'tag to this repo/repo to push to'
+    default: 'test'
     required: true
 runs:
   using: 'docker'
