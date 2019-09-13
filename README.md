@@ -1,23 +1,16 @@
 # action-docker-build
-A action CI plugin for building and labelling Docker images
-
-A plugin for [Drone CI](https://github.com/drone/drone) to build and label Docker images with minimal effort
-
-## Supported tags and respective `Dockerfile` links
-
-`latest` - [(Dockerfile)](https://github.com/spritsail/drone-docker-build/blob/master/Dockerfile)
+A plugin for [Actions CI](https://github.com/features/actions) to build and label Docker images with minimal effort
 
 ## Configuration
 
 An example configuration of how the plugin should be configured:
 ```yaml
-pipeline:
-  build:
-    image: spritsail/docker-build
-    volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
-    repo: user/image-name:optional-tag
-    build_args:
-      - BUILD_ARG=value
+steps:
+  - name: build
+    uses: triptixx/action-docker-build@master
+    with:
+      repo: user/image-name:optional-tag
+      build_args: BUILD_ARG=value, BUILD_ARG=value
 ```
 
 ### Available options
