@@ -18,7 +18,7 @@ error() { >&2 echo -e "${RED}Error: $@${RESET}"; exit 1; }
 # $INPUT_MAKE          provides makeflags concurrent of nproc
 
 if [ -z "$INPUT_REPO" ]; then
-  if [ "$INPUT_RM" = true ]; then
+  if [ -n "$INPUT_RM" ]; then
     INPUT_REPO="$GITHUB_REPOSITORY"
   else
     error "Missing 'repo' argument required for building"
@@ -32,13 +32,13 @@ ARGS="--pull\0--force-rm"
 [ -n "$INPUT_DOCKERFILE" ] && ARGS="$ARGS\0--file=$INPUT_DOCKERFILE"
 
 # Squash image if requested
-[ "$INPUT_SQUASH" = true ] && ARGS="$ARGS\0--squash"
+[ -n "$INPUT_SQUASH" ] && ARGS="$ARGS\0--squash"
 
 # Specify MAKEFLAGS job concurrency flag
-[ "$INPUT_MAKE" = true ] && ARGS="$ARGS\0--build-arg\0MAKEFLAGS=-j$(nproc)"
+[ -n "$INPUT_MAKE" ] && ARGS="$ARGS\0--build-arg\0MAKEFLAGS=-j$(nproc)"
 
 # Specify --no-cache unless caching is requested
-[ "$INPUT_USE_CACHE" = false ] && ARGS="$ARGS\0--no-cache"
+[ -z "$INPUT_USE_CACHE" ] && ARGS="$ARGS\0--no-cache"
 
 while read -r arg; do
   # If arg is '%file: <filename>' then .parse and read file
@@ -77,6 +77,6 @@ fi
 # Un-escape the NULL characters to fix arguments with spaces in
 printf "$ARGS${INPUT_ARGUMENTS//,/\0}\0--tag=${INPUT_REPO}\0${INPUT_PATH:-.}" | xargs -0 docker build
 
-if [ "$INPUT_RM" = true ]; then
+if [ -n "$INPUT_RM" ]; then
   docker image rm "$INPUT_REPO"
 fi
