@@ -64,7 +64,7 @@ ARGS="$ARGS\0--build-arg\0VCS_REF=$VCS_REF"
 ARGS="$ARGS\0--build-arg\0VCS_URL=$VCS_URL"
 ARGS="$ARGS\0--build-arg\0VENDOR=$VENDOR"
 
-if [ "$INPUT_NO_LABELS" = false ]; then
+if [ -z "$INPUT_NO_LABELS" ]; then
   ARGS="$ARGS\0--label\0org.label-schema.build-date=$BUILD_DATE"
   ARGS="$ARGS\0--label\0org.label-schema.vcs-ref=${VCS_REF:0:7}"
   ARGS="$ARGS\0--label\0org.label-schema.vcs-url=$VCS_URL"
