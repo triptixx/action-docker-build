@@ -35,11 +35,16 @@ inputs:
     description: 'a flag to immediately docker rm the built image'
     required: true
     default: false
+  squash:
+    description: 'squash the built image into one layer'
+    required: true
+    default: false
+  owner:
+    description: 'test'
+    default: ${{github.event.repository.owner.name}}
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  env:
-    owner: ${{github.event.repository.owner.name}}
 branding:
   icon: 'package'  
   color: 'blue'
