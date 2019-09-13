@@ -35,10 +35,6 @@ inputs:
     description: 'a flag to immediately docker rm the built image'
     required: true
     default: false
-  squash:
-    description: 'squash the built image into one layer'
-    required: true
-    default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
