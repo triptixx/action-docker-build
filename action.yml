@@ -38,6 +38,8 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  env:
+    owner: ${{github.event.repository.owner.name}}
 branding:
   icon: 'package'  
   color: 'blue'
