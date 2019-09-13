@@ -41,7 +41,8 @@ inputs:
     default: false
   owner:
     description: 'test'
-    default: ${{github.event.repository.owner.name}}
+    required: false
+    default: ${{ github.event.repository.owner.name }}
 runs:
   using: 'docker'
   image: 'Dockerfile'
