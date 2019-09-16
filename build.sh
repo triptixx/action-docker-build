@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-ls -al /github
+ls -al /github/workspace
 
 # ANSI colour escape sequences
 RED='\033[0;31m'
