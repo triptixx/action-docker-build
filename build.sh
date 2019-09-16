@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+ls -al /
+
 # ANSI colour escape sequences
 RED='\033[0;31m'
 RESET='\033[0m'
