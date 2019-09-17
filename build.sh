@@ -60,7 +60,7 @@ EOA
 #export VCS_REF="$GITHUB_SHA"
 #export VCS_URL="https://github.com/$GITHUB_REPOSITORY"
 #export VENDOR="$GITHUB_ACTOR"
-export BUILD_DATE="$(date -d jq --raw-output .head_commit.timestamp "$GITHUB_EVENT_PATH" +"%Y-%m-%dT%H:%M:%SZ")"
+export BUILD_DATE="$(date -d "$(jq --raw-output .head_commit.timestamp "$GITHUB_EVENT_PATH")" +"%Y-%m-%dT%H:%M:%SZ")"
 export VCS_REF="$(jq --raw-output .head_commit.id "$GITHUB_EVENT_PATH")"
 export VCS_URL="$(jq --raw-output .repository.url "$GITHUB_EVENT_PATH")"
 export VENDOR="$(jq --raw-output .repository.owner.name "$GITHUB_EVENT_PATH")"
