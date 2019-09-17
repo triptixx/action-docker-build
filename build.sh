@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-jq --raw-output . "$GITHUB_EVENT_PATH"
+jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH"
 
 # ANSI colour escape sequences
 RED='\033[0;31m'
