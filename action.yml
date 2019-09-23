@@ -1,9 +1,33 @@
 name: 'docker build'
 author: 'triptixx'
 description: 'A Action CI plugin for building and labelling Docker images'
+inputs:
+  repo:
+    description: 'tag to this repo/repo to push to'
+    required: true
+  path:
+    description: 'override working directory'
+    default: '.'
+  dockerfile:
+    description: 'override Dockerfile location'
+    default: 'Dockerfile'
+  use_cache:
+    description: 'override to disable --no-cache'
+  no_labels:
+    description: 'disable automatic image labelling'
+  build_args:
+    description: 'additional build arguments'
+  arguments:
+    description: 'optional extra arguments to pass to docker build'
+  make:
+    description: 'provides MAKEFLAGS=-j$(nproc) as a build-argument'
+  rm:
+    description: 'a flag to immediately docker rm the built image'
+  squash:
+    description: 'squash the built image into one layer'
 runs:
   using: 'docker'
   image: 'Dockerfile'
 branding:
-  icon: 'package'  
+  icon: 'package'
   color: 'blue'
