@@ -20,8 +20,7 @@ error() { >&2 echo -e "${RED}Error: $@${RESET}"; exit 1; }
 
 if [ -z "$INPUT_REPO" ]; then
   if [ -n "$INPUT_RM" ]; then
-    #INPUT_REPO="$GITHUB_REPOSITORY"
-    INPUT_REPO="$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")"
+    INPUT_REPO="$GITHUB_REPOSITORY"
   else
     error "Missing 'repo' argument required for building"
   fi
@@ -56,14 +55,10 @@ done << EOA
 $(echo "$INPUT_BUILD_ARGS" | tr ',' '\n')
 EOA
 
-#export BUILD_DATE="$(date +"%Y-%m-%dT%H:%M:%SZ")"
-#export VCS_REF="$GITHUB_SHA"
-#export VCS_URL="https://github.com/$GITHUB_REPOSITORY"
-#export VENDOR="$GITHUB_ACTOR"
 export BUILD_DATE="$(date -d "$(jq --raw-output .head_commit.timestamp "$GITHUB_EVENT_PATH")" +"%Y-%m-%dT%H:%M:%SZ")"
-export VCS_REF="$(jq --raw-output .head_commit.id "$GITHUB_EVENT_PATH")"
+export VCS_REF="$GITHUB_SHA"
 export VCS_URL="$(jq --raw-output .repository.url "$GITHUB_EVENT_PATH")"
-export VENDOR="$(jq --raw-output .repository.owner.name "$GITHUB_EVENT_PATH")"
+export VENDOR="$GITHUB_ACTOR"
 
 ARGS="$ARGS\0--build-arg\0BUILD_DATE=$BUILD_DATE"
 ARGS="$ARGS\0--build-arg\0VCS_REF=$VCS_REF"
