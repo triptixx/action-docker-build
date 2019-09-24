@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eo pipefail
 
-echo "$INPUT_TMP"
+echo "$test"
 
 # ANSI colour escape sequences
 RED='\033[0;31m'
