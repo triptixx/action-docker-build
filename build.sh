@@ -1,6 +1,5 @@
 #!/bin/sh
-set -e
-set -o pipefail
+set -eo pipefail
 
 # ANSI colour escape sequences
 RED='\033[0;31m'
