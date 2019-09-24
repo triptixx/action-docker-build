@@ -13,8 +13,10 @@ inputs:
     default: 'Dockerfile'
   use_cache:
     description: 'override to disable --no-cache'
+    default: false
   no_labels:
     description: 'disable automatic image labelling'
+    default: false
   build_args:
     description: 'additional build arguments'
   arguments:
