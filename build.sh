@@ -1,8 +1,6 @@
 #!/bin/sh
 set -eo pipefail
 
-echo "$test"
-
 # ANSI colour escape sequences
 RED='\033[0;31m'
 RESET='\033[0m'
@@ -40,7 +38,7 @@ ARGS="--pull\0--force-rm"
 [ -n "$INPUT_MAKE" ] && ARGS="$ARGS\0--build-arg\0MAKEFLAGS=-j$(nproc)"
 
 # Specify --no-cache unless caching is requested
-[ -z "$INPUT_USE_CACHE" ] && ARGS="$ARGS\0--no-cache"
+[ "$INPUT_USE_CACHE" = false ] && ARGS="$ARGS\0--no-cache"
 
 while read -r arg; do
   # If arg is '%file: <filename>' then .parse and read file
@@ -66,7 +64,7 @@ ARGS="$ARGS\0--build-arg\0VCS_REF=$VCS_REF"
 ARGS="$ARGS\0--build-arg\0VCS_URL=$VCS_URL"
 ARGS="$ARGS\0--build-arg\0VENDOR=$VENDOR"
 
-if [ -z "$INPUT_NO_LABELS" ]; then
+if [ "$INPUT_NO_LABELS" = false ]; then
   ARGS="$ARGS\0--label\0org.label-schema.build-date=$BUILD_DATE"
   ARGS="$ARGS\0--label\0org.label-schema.vcs-ref=${VCS_REF:0:7}"
   ARGS="$ARGS\0--label\0org.label-schema.vcs-url=$VCS_URL"
