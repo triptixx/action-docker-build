@@ -72,10 +72,10 @@ if [ "$INPUT_NO_LABELS" = false ]; then
     ARGS="$ARGS\0--label\0org.label-schema.schema-version=1.0"
 fi
 
->&2 echo "+ docker build ${ARGS//\\0/ } $INPUT_ARGUMENTS --tag=$INPUT_REPO ${INPUT_PATH:-.}"
+>&2 echo "+ docker image build ${ARGS//\\0/ } $INPUT_ARGUMENTS --tag=$INPUT_REPO ${INPUT_PATH:-.}"
 
 # Un-escape the NULL characters to fix arguments with spaces in
-printf "$ARGS${INPUT_ARGUMENTS//,/\0}\0--tag=${INPUT_REPO}\0${INPUT_PATH:-.}" | xargs -0 docker build
+printf "$ARGS${INPUT_ARGUMENTS//,/\0}\0--tag=${INPUT_REPO}\0${INPUT_PATH:-.}" | xargs -0 docker image build
 
 if [ -n "$INPUT_RM" ]; then
     docker image rm "$INPUT_REPO"
