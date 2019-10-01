@@ -18,11 +18,11 @@ error() { >&2 echo -e "${RED}Error: $@${RESET}"; exit 1; }
 # $INPUT_MAKE          provides makeflags concurrent of nproc
 
 if [ -z "$INPUT_REPO" ]; then
-  if [ -n "$INPUT_RM" ]; then
-    INPUT_REPO="$GITHUB_REPOSITORY"
-  else
-    error "Missing 'repo' argument required for building"
-  fi
+    if [ -n "$INPUT_RM" ]; then
+        INPUT_REPO="$GITHUB_REPOSITORY"
+    else
+        error "Missing 'repo' argument required for building"
+    fi
 fi
 
 # Always specify pull so images are pulled, and intermediate containers removed
@@ -41,15 +41,15 @@ ARGS="--pull\0--force-rm"
 [ "$INPUT_USE_CACHE" = false ] && ARGS="$ARGS\0--no-cache"
 
 while read -r arg; do
-  # If arg is '%file: <filename>' then .parse and read file
-  if echo "$arg" | grep -q "%file\\s*:\\s*"; then
-    arg="${arg%%=*}=$(cat "$(echo ${arg#*:} | xargs)")"
-  fi
-  if [ -n "${arg// }" ]; then
-    # Only add arguments if they're not empty
-    # this prevents the '"docker build" requires exactly 1 argument.' error
-    ARGS="$ARGS\0--build-arg\0${arg}"
-  fi
+    # If arg is '%file: <filename>' then .parse and read file
+    if echo "$arg" | grep -q "%file\\s*:\\s*"; then
+        arg="${arg%%=*}=$(cat "$(echo ${arg#*:} | xargs)")"
+    fi
+    if [ -n "${arg// }" ]; then
+        # Only add arguments if they're not empty
+        # this prevents the '"docker build" requires exactly 1 argument.' error
+        ARGS="$ARGS\0--build-arg\0${arg}"
+    fi
 done << EOA
 $(echo "$INPUT_BUILD_ARGS" | tr ',' '\n')
 EOA
@@ -65,11 +65,11 @@ ARGS="$ARGS\0--build-arg\0VCS_URL=$VCS_URL"
 ARGS="$ARGS\0--build-arg\0VENDOR=$VENDOR"
 
 if [ "$INPUT_NO_LABELS" = false ]; then
-  ARGS="$ARGS\0--label\0org.label-schema.build-date=$BUILD_DATE"
-  ARGS="$ARGS\0--label\0org.label-schema.vcs-ref=${VCS_REF:0:7}"
-  ARGS="$ARGS\0--label\0org.label-schema.vcs-url=$VCS_URL"
-  ARGS="$ARGS\0--label\0org.label-schema.vendor=$VENDOR"
-  ARGS="$ARGS\0--label\0org.label-schema.schema-version=1.0"
+    ARGS="$ARGS\0--label\0org.label-schema.build-date=$BUILD_DATE"
+    ARGS="$ARGS\0--label\0org.label-schema.vcs-ref=${VCS_REF:0:7}"
+    ARGS="$ARGS\0--label\0org.label-schema.vcs-url=$VCS_URL"
+    ARGS="$ARGS\0--label\0org.label-schema.vendor=$VENDOR"
+    ARGS="$ARGS\0--label\0org.label-schema.schema-version=1.0"
 fi
 
 >&2 echo "+ docker build ${ARGS//\\0/ } $INPUT_ARGUMENTS --tag=$INPUT_REPO ${INPUT_PATH:-.}"
@@ -78,5 +78,5 @@ fi
 printf "$ARGS${INPUT_ARGUMENTS//,/\0}\0--tag=${INPUT_REPO}\0${INPUT_PATH:-.}" | xargs -0 docker build
 
 if [ -n "$INPUT_RM" ]; then
-  docker image rm "$INPUT_REPO"
+    docker image rm "$INPUT_REPO"
 fi
