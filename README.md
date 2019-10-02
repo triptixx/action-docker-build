@@ -20,7 +20,7 @@ steps:
 - `use_cache`     override to disable `--no-cache`. _default: `false`_
 - `no_labels`     disable automatic image labelling. _default: `false`_
 - `build_args`    additional build arguments. _optional_
-- `arguments`     optional extra arguments to pass to `docker build`. _optional_
+- `arguments`     optional extra arguments to pass to `docker image build`. _optional_
 - `make`          provides MAKEFLAGS=-j$(nproc) as a build-argument. _optional_
-- `rm`            a flag to immediately `docker rm` the built image. _optional_
+- `rm`            a flag to immediately `docker image rm` the built image. _optional_
 - `squash`        squash the built image into one layer. _optional_
