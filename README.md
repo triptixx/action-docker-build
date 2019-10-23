@@ -10,7 +10,7 @@ steps:
     uses: triptixx/action-docker-build@master
     with:
       repo: user/image-name:optional-tag
-      build_args: BUILD_ARG=value, BUILD_ARG=value
+      build_args: BUILD_ARG=value,BUILD_ARG=value
 ```
 
 ### Available options
